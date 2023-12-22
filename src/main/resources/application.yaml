@@ -8,6 +8,9 @@ app:
     max-pool-size: 100
 
 spring:
+  test:
+    database:
+      replace: any
   config:
     import: classpath:application-sensitive.yaml
   init:
@@ -29,6 +32,7 @@ spring:
         jdbc.batch_size: 20
   datasource:
     url: jdbc:postgresql://localhost:2345/jira
+
 
   liquibase:
     changeLog: "classpath:db/changelog.sql"
@@ -78,6 +82,7 @@ spring:
   sql:
     init:
       mode: always
+      data-locations: classpath:data4dev/data.sql
 
   mail:
     properties:

@@ -22,6 +22,7 @@ import org.springframework.util.Assert;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
 import static com.javarush.jira.bugtracking.task.TaskUtil.makeActivity;
@@ -39,6 +40,7 @@ public class TaskService {
     private final SprintRepository sprintRepository;
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
+    private final TaskRepository taskRepository;
 
     @Transactional
     public void changeStatus(long taskId, String statusCode) {
@@ -130,6 +132,22 @@ public class TaskService {
                 .orElseThrow(() -> new NotFoundException(String
                         .format("Not found assignment with userType=%s for task {%d} for user {%d}", userType, id, userId)));
         assignment.setEndpoint(LocalDateTime.now());
+    }
+
+    @Transactional
+    public void setTag(long taskId, String tag) {
+        Task currentTask = taskRepository
+                .findById(taskId)
+                .orElseThrow(() -> new NotFoundException("Task wasn't found!"));
+        currentTask.getTags().add(tag);
+    }
+
+    @Transactional
+    public void deleteTag(long taskId) {
+        Task currentTask = taskRepository
+                .findById(taskId)
+                .orElseThrow(() -> new NotFoundException("Task wasn't found!"));
+        currentTask.getTags().clear();
     }
 
     private void checkAssignmentActionPossible(long id, String userType, boolean assign) {

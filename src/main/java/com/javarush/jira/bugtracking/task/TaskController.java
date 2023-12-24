@@ -151,6 +151,18 @@ public class TaskController {
         activityService.delete(id);
     }
 
+    @PatchMapping(value = "/{id}/set-task", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void setTag(@PathVariable("id") long taskId, @RequestBody String task) {
+        taskService.setTag(taskId, task);
+    }
+
+    @DeleteMapping("/{id}/delete-tag")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTag(@PathVariable("id") long taskId) {
+        taskService.deleteTag(taskId);
+    }
+
     private record TaskTreeNode(TaskTo taskTo, List<TaskTreeNode> subNodes) implements ITreeNode<TaskTo, TaskTreeNode> {
         public TaskTreeNode(TaskTo taskTo) {
             this(taskTo, new LinkedList<>());

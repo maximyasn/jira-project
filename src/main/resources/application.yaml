@@ -104,6 +104,8 @@ logging:
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
 
 server:
+  tomcat:
+    redirect-context-root: false
   #  https://springdoc.org/index.html#how-can-i-deploy-springdoc-openapi-ui-behind-a-reverse-proxy
   forward-headers-strategy: framework
   servlet:
